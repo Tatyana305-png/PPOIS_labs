@@ -139,59 +139,81 @@ class Program:
         self.states.clear()
 
         lines = stream.readlines() if hasattr(stream, 'readlines') else stream
-        print(f"Загружаем программу из {len(lines)} строк")  # Отладочный вывод
+        print(f"Загружаем программу из {len(lines)} строк")
 
         for line in lines:
             line = line.strip()
-            print(f"Обрабатываем строку: '{line}'")  # Отладочный вывод
+            print(f"Обрабатываем строку: '{line}'")
 
             if not line or line.startswith("#"):
                 continue
 
             # Обрабатываем специальные команды
-            if line.startswith("initial"):
-                parts = line.split()
-                if len(parts) >= 2:
-                    self.initial_state = parts[1]
-                    print(f"Установлено начальное состояние: {self.initial_state}")
-                continue
-            elif line.startswith("final"):
-                parts = line.split()
-                if len(parts) >= 2:
-                    self.final_states = set(parts[1:])
-                    print(f"Установлены конечные состояния: {self.final_states}")
+            if self._process_special_command(line):
                 continue
 
-            # Обрабатываем правила (более гибкий парсинг)
+            # Обрабатываем правила
+            self._process_rule_line(line)
+
+    def _process_special_command(self, line: str) -> bool:
+        """Обработка специальных команд (initial, final)"""
+        if line.startswith("initial"):
             parts = line.split()
-            print(f"Части строки: {parts}")  # Отладочный вывод
+            if len(parts) >= 2:
+                self.initial_state = parts[1]
+                print(f"Установлено начальное состояние: {self.initial_state}")
+            return True
 
-            # Ищем позицию "->"
-            if "->" in parts:
-                arrow_index = parts.index("->")
-                if arrow_index >= 1 and len(parts) >= arrow_index + 3:
-                    current_state = parts[0]
-                    read_symbol = parts[1]
-                    next_state = parts[arrow_index + 1]
-                    write_symbol = parts[arrow_index + 2]
-                    direction = parts[arrow_index + 3]
+        elif line.startswith("final"):
+            parts = line.split()
+            if len(parts) >= 2:
+                self.final_states = set(parts[1:])
+                print(f"Установлены конечные состояния: {self.final_states}")
+            return True
 
-                    # Для пробела используем специальное обозначение
-                    if read_symbol == "->":  # Если пробел пропущен
-                        read_symbol = " "
-                    if write_symbol == "->":  # Если пробел пропущен
-                        write_symbol = " "
+        return False
 
-                    rule = Rule(current_state, read_symbol, next_state, write_symbol, direction)
-                    self.add_rule(rule)
-                    print(f"Добавлено правило: {rule}")
-            else:
-                # Альтернативный формат без "->"
-                if len(parts) == 5:
-                    current_state, read_symbol, next_state, write_symbol, direction = parts
-                    rule = Rule(current_state, read_symbol, next_state, write_symbol, direction)
-                    self.add_rule(rule)
-                    print(f"Добавлено правило: {rule}")
+    def _process_rule_line(self, line: str):
+        """Обработка строки с правилом"""
+        parts = line.split()
+        print(f"Части строки: {parts}")
+
+        # Ищем позицию "->"
+        if "->" in parts:
+            self._parse_rule_with_arrow(parts)
+        else:
+            self._parse_rule_without_arrow(parts)
+
+    def _parse_rule_with_arrow(self, parts: list):
+        """Парсинг правила в формате с '->'"""
+        arrow_index = parts.index("->")
+        if arrow_index >= 1 and len(parts) >= arrow_index + 3:
+            current_state = parts[0]
+            read_symbol = parts[1]
+            next_state = parts[arrow_index + 1]
+            write_symbol = parts[arrow_index + 2]
+            direction = parts[arrow_index + 3]
+
+            # Для пробела используем специальное обозначение
+            if read_symbol == "->":  # Если пробел пропущен
+                read_symbol = " "
+            if write_symbol == "->":  # Если пробел пропущен
+                write_symbol = " "
+
+            self._create_and_add_rule(current_state, read_symbol, next_state, write_symbol, direction)
+
+    def _parse_rule_without_arrow(self, parts: list):
+        """Парсинг правила в формате без '->'"""
+        if len(parts) == 5:
+            current_state, read_symbol, next_state, write_symbol, direction = parts
+            self._create_and_add_rule(current_state, read_symbol, next_state, write_symbol, direction)
+
+    def _create_and_add_rule(self, current_state: str, read_symbol: str,
+                             next_state: str, write_symbol: str, direction: str):
+        """Создание и добавление правила в программу"""
+        rule = Rule(current_state, read_symbol, next_state, write_symbol, direction)
+        self.add_rule(rule)
+        print(f"Добавлено правило: {rule}")
 
     def view_rules(self):
         """Просмотр всех правил"""
