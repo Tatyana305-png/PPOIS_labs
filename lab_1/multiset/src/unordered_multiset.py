@@ -185,7 +185,7 @@ class UnorderedMultiset:
                 self.elements[elem] = min(self.elements[elem], other.elements[elem])
             else:
                 elements_to_remove.append(elem)
-
+        
         for elem in elements_to_remove:
             del self.elements[elem]
         return self
@@ -202,11 +202,11 @@ class UnorderedMultiset:
                     all_elements.append(nested_ms)
                 else:
                     all_elements.append(elem)
-
+        
         # Генерируем все возможные подмножества
         result = []
         n = len(all_elements)
-
+        
         # Проходим по всем возможным размерам подмножеств
         for size in range(n + 1):
             # Генерируем все комбинации данного размера
@@ -215,7 +215,7 @@ class UnorderedMultiset:
                 for idx in indices:
                     subset.add(all_elements[idx])
                 result.append(subset)
-
+        
         return result
 
     def __str__(self) -> str:
