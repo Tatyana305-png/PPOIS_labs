@@ -1,5 +1,7 @@
-from turing_machine import Tape, Program, Rule, TuringMachine
-
+from core.tape import Tape
+from core.rule import Rule
+from core.program import Program
+from core.machine import TuringMachine
 
 def create_inverter_program():
     """Создание программы для инвертирования битов"""
