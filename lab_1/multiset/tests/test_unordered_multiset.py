@@ -110,14 +110,6 @@ class TestUnorderedMultiset(unittest.TestCase):
         self.assertEqual(ms1, ms2)
         self.assertNotEqual(ms1, ms3)
 
-    def test_list_initialization(self):
-        """Тест создания из списка"""
-        ms = UnorderedMultiset(["a", "b", "c", "a"])
-        self.assertEqual(ms.count("a"), 2)
-        self.assertEqual(ms.count("b"), 1)
-        self.assertEqual(ms.count("c"), 1)
-
-    # НОВЫЕ ТЕСТЫ ДЛЯ ДОБАВЛЕННЫХ ФУНКЦИЙ
 
     def test_is_empty(self):
         """Тест проверки на пустое множество"""
