@@ -99,12 +99,6 @@ class ComputerSystem:
         cpu_counter = PerformanceCounter("cpu_usage")
         self.monitor_system.performance_counters['cpu'] = cpu_counter
 
-        # Ассоциация 11: Текстовый редактор содержит проверщик орфографии
-        # (имитация - в реальной системе это был бы отдельный объект)
-
-        # Ассоциация 12: Батарея содержит зарядное устройство
-        # (имитация связи)
-
     def demonstrate_functionality(self):
         """Демонстрация функциональности системы"""
         print("=== Демонстрация компьютерной системы ===\n")
@@ -205,4 +199,5 @@ class ComputerSystem:
 if __name__ == "__main__":
     # Создание и запуск компьютерной системы
     computer = ComputerSystem()
+
     computer.demonstrate_functionality()
