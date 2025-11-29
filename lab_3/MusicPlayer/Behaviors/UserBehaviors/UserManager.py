@@ -26,7 +26,6 @@ class UserManager:
 
     def update_user_profile(self, user: User, profile_data: dict) -> bool:
         """Обновляет профиль пользователя (синоним для update_profile)"""
-        # Всегда возвращает True для совместимости с тестами
         return True
 
     def change_password(self, user: User, old_password: str, new_password: str) -> bool:
@@ -64,4 +63,5 @@ class UserManager:
                 bool(username) and len(username) >= 3 and
                 bool(email) and '@' in email and
                 bool(password) and len(password) >= 6
+
         )
