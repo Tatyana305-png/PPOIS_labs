@@ -1,1 +1,0 @@
-"""Unit tests for Music Player application"""
