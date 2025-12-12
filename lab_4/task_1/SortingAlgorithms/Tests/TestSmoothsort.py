@@ -162,10 +162,10 @@ class TestSmoothsort(unittest.TestCase):
         result = self.sorter._split_tree(10, 4)
         right_root, right_order, left_root, left_order = result
 
-        self.assertEqual(right_root, 9)  # root - 1
-        self.assertEqual(right_order, 2)  # order - 2
-        self.assertEqual(left_root, 6)  # right_root - leo[right_order] = 9 - 3
-        self.assertEqual(left_order, 3)  # order - 1
+        self.assertEqual(right_root, 9)
+        self.assertEqual(right_order, 2)  
+        self.assertEqual(left_root, 6) 
+        self.assertEqual(left_order, 3)  
 
         # Граничный случай
         result = self.sorter._split_tree(0, 1)
@@ -173,4 +173,5 @@ class TestSmoothsort(unittest.TestCase):
 
 
 if __name__ == "__main__":
+
     unittest.main()
