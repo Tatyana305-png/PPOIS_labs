@@ -19,7 +19,6 @@ class SortingDemo:
 
         self._demo_basic_types()
         self._demo_student_sorting()
-        self._demo_algorithm_comparison()
 
         self._print_header("ДЕМОНСТРАЦИЯ ЗАВЕРШЕНА")
 
@@ -98,48 +97,6 @@ class SortingDemo:
         for student in students_by_gpa:
             print(f"  {student}")
 
-    def _demo_algorithm_comparison(self):
-        """Демонстрация сравнения алгоритмов"""
-        self._print_header("СРАВНЕНИЕ АЛГОРИТМОВ")
-
-        print("\nХАРАКТЕРИСТИКИ АЛГОРИТМОВ:")
-
-        print("\nSMOOTHSORT:")
-        print("• Адаптивный алгоритм со сложностью O(n log n) в худшем случае")
-        print("• O(n) в лучшем случае (для отсортированных данных)")
-        print("• Использует числа Леонардо для построения 'леса куч'")
-        print("• Требует O(1) дополнительной памяти")
-        print("• Устойчив (сохраняет порядок равных элементов)")
-
-        print("\nPANCAKE SORT:")
-        print("• Сложность O(n²) в худшем и среднем случае")
-        print("• Сортировка выполняется переворотами частей массива")
-        print("• Требует O(1) дополнительной памяти")
-        print("• Неустойчив (может менять порядок равных элементов)")
-        print("• Интересен с теоретической точки зрения")
-
-        # Простая демонстрация производительности
-        print("\nПРОСТОЕ СРАВНЕНИЕ ПРОИЗВОДИТЕЛЬНОСТИ:")
-        import random
-
-        small_array = [random.randint(1, 100) for _ in range(20)]
-        print(f"Массив из 20 элементов: {small_array[:5]}...")
-
-        small_copy1 = small_array.copy()
-        self._smoothsort.sort(small_copy1)
-        stats1 = self._smoothsort.get_stats()
-
-        small_copy2 = small_array.copy()
-        self._pancake_sort.sort(small_copy2)
-        stats2 = self._pancake_sort.get_stats()
-
-        print(f"Smoothsort: {stats1['comparisons']} сравнений, {stats1['swaps']} обменов")
-        print(f"Pancake:    {stats2['comparisons']} сравнений, {stats2['swaps']} обменов")
-
-        print("\n" + "-" * self._separator_length)
-        print("ВЫВОД: Smoothsort эффективнее для больших и частично")
-        print("отсортированных массивов, Pancake Sort проще в реализации.")
-        print("-" * self._separator_length)
 
     def _print_header(self, text: str):
         """Вывод заголовка"""
